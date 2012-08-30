@@ -11,25 +11,37 @@ import android.os.Vibrator;
 import android.provider.Settings.Secure;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.TelephonyManager;
-
+/**
+ * @author hljdrl@gmail.com
+ * */
 public class DeviceHelper {
-	private String mImei;
+	
+	public  String UA = Build.MODEL;
+	private String mIMEI;
 	private String mSIM;
-	String mMobileVersion;
-	List<NeighboringCellInfo> mCellinfos;
-	String mNetwrokIso;
-	Context mContext;
+	private String mMobileVersion;
+	private String mNetwrokIso;
 	private String mNetType;
+	private String mDeviceID;
+	private List<NeighboringCellInfo> mCellinfos;
+	Context mContext;
+	
+	//-----------------------------------------------------------
+	private static DeviceHelper INSTANCE = null;
+	public static synchronized DeviceHelper getInstance(Context context) {
+		if (INSTANCE == null) {
+			INSTANCE = new DeviceHelper(context);
+		}
+		return INSTANCE;
+	}
+	
 	/**
 	 * 
 	 * */
-	public static String UA = Build.MODEL;
-
 	public DeviceHelper(Context context) {
 		mContext = context;
 		findData();
 	}
-
 	/**
 	 * 
 	 * 设置手机立刻震动
@@ -41,15 +53,15 @@ public class DeviceHelper {
 	}
 
 	TelephonyManager mTm = null;
-
 	private void findData() {
 		mTm = (TelephonyManager) mContext
 				.getSystemService(Context.TELEPHONY_SERVICE);
-		setImei(mTm.getDeviceId());
+		mIMEI = mTm.getDeviceId();
 		mMobileVersion = mTm.getDeviceSoftwareVersion();
 		mCellinfos = mTm.getNeighboringCellInfo();
 		mNetwrokIso = mTm.getNetworkCountryIso();
-		setSIM(mTm.getSimSerialNumber());
+		mSIM = mTm.getSimSerialNumber();
+		mDeviceID = getDeviceId();
 		//
 		try {
 			ConnectivityManager cm = (ConnectivityManager) mContext
@@ -62,19 +74,9 @@ public class DeviceHelper {
 		}
 	}
 
-	public void updataDeviceInfo() {
+	public void onRefresh() {
 		findData();
 	}
-
-	private static DeviceHelper INSTANCE = null;
-
-	public static synchronized DeviceHelper getInstance(Context context) {
-		if (INSTANCE == null) {
-			INSTANCE = new DeviceHelper(context);
-		}
-		return INSTANCE;
-	}
-
 	/**
 	 * 获得android设备-唯一标识，android2.2 之前无法稳定运行.
 	 * */
@@ -82,31 +84,21 @@ public class DeviceHelper {
 		return Secure.getString(mCm.getContentResolver(), Secure.ANDROID_ID);
 	}
 
-	public String getDeviceId() {
+	private String getDeviceId() {
 		return Secure.getString(mContext.getContentResolver(),
 				Secure.ANDROID_ID);
 	}
 
 	public String getImei() {
-		return mImei;
-	}
-
-	public void setImei(String mImei) {
-		this.mImei = mImei;
+		return mIMEI;
 	}
 
 	public String getSIM() {
 		return mSIM;
 	}
-
-	public void setSIM(String mSIM) {
-		this.mSIM = mSIM;
-	}
-
 	public String getUA() {
 		return UA;
 	}
-
 	public String getDeviceInfo() {
 		StringBuffer info = new StringBuffer();
 		info.append("IMEI:").append(getImei());
@@ -185,8 +177,8 @@ public class DeviceHelper {
 	public String getSimOpertorName() {
 		if (mTm.getSimState() == android.telephony.TelephonyManager.SIM_STATE_READY) {
 			StringBuffer sb = new StringBuffer();
-			// sb.append("SimOperatorName: ").append(mTm.getSimOperatorName());
-			// sb.append("\n");
+			 sb.append("SimOperatorName: ").append(mTm.getSimOperatorName());
+			 sb.append("\n");
 			sb.append("SimOperator: ").append(mTm.getSimOperator());
 			sb.append("\n");
 			sb.append("Phone:").append(mTm.getLine1Number());
@@ -237,5 +229,25 @@ public class DeviceHelper {
 			return "电话状态[CallState]: 未知";
 		}
 	}
+
+	public String getNetwrokIso() {
+		return mNetwrokIso;
+	}
+
+	/**
+	 * @return the mDeviceID
+	 */
+	public String getmDeviceID() {
+		return mDeviceID;
+	}
+
+	/**
+	 * @return the mNetType
+	 */
+	public String getNetType() {
+		return mNetType;
+	}
+
+
 
 }
