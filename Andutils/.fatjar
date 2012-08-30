@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Thu Aug 30 12:07:04 CST 2012
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=andutils_1.0.jar
+manifest.mergeall=true
+manifest.mainclass=
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=<po|Andutils>~org/~and/~util/~R$layout.class;<po|Andutils>~org/~and/~util/~R$string.class;<po|Andutils>~org/~and/~util/~R$drawable.class;<po|Andutils>~org/~and/~util/~R.class;<po|Andutils>~org/~and/~util/~R$attr.class;<po|Andutils>~.svn/;<po|Andutils>~classes.dex;<po|Andutils>~resources.ap_;<po|Andutils>~Andutils.apk
+includes=
