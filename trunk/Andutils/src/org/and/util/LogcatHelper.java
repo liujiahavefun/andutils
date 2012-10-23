@@ -57,7 +57,7 @@ public class LogcatHelper {
 	}
 	public void start() {
 		if(mLogDumper==null){
-			mLogDumper = new LogDumper(String.valueOf(mPId),PATH_LOGCAT);
+			mLogDumper = new LogDumper(mPId,PATH_LOGCAT);
 			mLogDumper.start();
 		}
 	}
@@ -114,8 +114,9 @@ public class LogcatHelper {
 		{
 			return mLogFileLock;
 		}
-		public LogDumper(String pid,String file) {
-			mPID = String.valueOf(pid);
+		
+		public LogDumper(int pid,String file) {
+			mPID = paresPID(pid);
 			fileName = file;
 			File mFile = new File(fileName,"error.txt");
 			if(!mFile.exists()){
@@ -241,5 +242,13 @@ public class LogcatHelper {
 			
 		}
 	}
+	public static final String paresPID(int pid) {
+		StringBuffer tmp = new StringBuffer();
+		tmp.append(pid);
+		while (tmp.length() < 5) {
+			tmp.insert(0, " ");
+		}
 
+		return tmp.toString();
+	}
 }
