@@ -30,7 +30,6 @@ public class ApkHelper {
 					PackageManager.GET_UNINSTALLED_PACKAGES);
 		} catch (NameNotFoundException e) {
 			flag = false;
-			throw new NotFoundException();
 		} catch (Exception ex) {
 			flag = false;
 			if (pkgInfo == null) {
