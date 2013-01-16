@@ -12,6 +12,9 @@ public class StringHelper {
 			return true;
 		}
 	}
+	
+	
+	
 	/**
 	 * bytes[]转换成Hex字符串,可用于URL转换，IP地址转换.
 	 * */
